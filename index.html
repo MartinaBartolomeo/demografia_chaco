@@ -4,272 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demografía Social - Provincia del Chaco (Siglo XXI)</title>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
-    <!-- Chart.js y DataLabels Plugin -->
+    
+    <!-- Chart.js y Plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f7f6;
-            color: #2d3436;
-            line-height: 1.5;
-        }
-
-        /* ----------------------------------------------------
-           AJUSTES PARA DESKTOP
-           ---------------------------------------------------- */
-        .dashboard-container {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 1.5rem; 
-        }
-
-        .header {
-            background: #ffffff;
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 1.5rem;
-        }
-
-        .header h1 {
-            font-family: 'Merriweather', serif;
-            color: #2c3e50;
-            font-size: 1.8rem; 
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 0.8rem;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tab-link {
-            font-family: 'Inter', sans-serif;
-            background: none;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
-            color: #636e72;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .tab-link:hover { color: #0984e3; }
-        .tab-link.active {
-            color: #0984e3;
-            font-weight: 600;
-            border-bottom: 3px solid #0984e3;
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 2fr; 
-            gap: 1.5rem;
-            align-items: stretch;
-        }
-
-        .grid-layout-full {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .panel-texto {
-            background-color: #ffffff;
-            padding: 2rem 1.5rem;
-            border-left: 6px solid #0984e3;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .panel-texto.full-width {
-            border-left: 6px solid #27ae60;
-        }
-
-        .panel-texto h2 {
-            font-family: 'Merriweather', serif;
-            color: #2980b9;
-            margin-bottom: 1.2rem;
-            font-size: 1.25rem;
-        }
-
-        .panel-texto h2.sub { margin-top: 1.5rem; }
-        .panel-texto.full-width h2 { color: #27ae60; }
-
-        .panel-texto p {
-            margin-bottom: 1.2rem;
-            font-size: 1rem;
-            color: #4a5568;
-            text-align: justify;
-        }
-
-        .panel-texto ul { list-style: none; }
-        
-        .panel-texto li {
-            margin-bottom: 1rem;
-            font-size: 0.95rem; 
-            color: #4a5568;
-            text-align: justify;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .panel-texto li::before {
-            content: "•";
-            color: #0984e3;
-            font-weight: bold;
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -6px;
-        }
-        .panel-texto.full-width li::before { color: #27ae60; }
-
-        .panel-grafico {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            height: 62vh; 
-            min-height: 400px;
-            max-height: 550px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* ----------------------------------------------------
-           NUEVO DISEÑO DE BOTONES TIPO "CAJA" (Segmented Control)
-           ---------------------------------------------------- */
-        .filtros-container {
-            display: flex;
-            flex-wrap: wrap; /* Evita que se aplasten en pantallas chicas */
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-            width: 100%;
-            justify-content: center; /* Centrados quedan más armónicos */
-            align-items: center;
-        }
-
-        .selector-botones {
-            display: inline-flex;
-            background-color: #f1f5f9; /* Caja gris muy sutil */
-            padding: 5px;
-            border-radius: 8px; /* Bordes redondeados para la caja principal */
-            border: 1px solid #e2e8f0;
-        }
-
-        .btn-grafico {
-            padding: 6px 16px;
-            border: none;
-            background: transparent;
-            border-radius: 6px; /* Borde interior del botón */
-            cursor: pointer;
-            font-weight: 600;
-            color: #64748b;
-            transition: all 0.2s ease;
-            font-size: 0.9rem;
-        }
-
-        .btn-grafico:hover {
-            color: #0984e3;
-        }
-
-        .btn-grafico.active {
-            background-color: #0984e3;
-            color: #ffffff;
-            box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3); /* Sombra elegante que lo hace "resaltar" */
-        }
-
-        .canvas-container {
-            width: 100%;
-            flex-grow: 1; 
-            position: relative;
-        }
-
-        .double-canvas-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .half-canvas {
-            width: 50%;
-            height: 100%;
-            position: relative;
-        }
-
-        canvas { width: 100% !important; height: 100% !important; }
-
-        .fuente-texto {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 8px;
-            width: 100%;
-            text-align: left;
-            font-style: italic;
-        }
-
-        /* ----------------------------------------------------
-           AJUSTES PARA MOBILE 
-           ---------------------------------------------------- */
-        @media (max-width: 1024px) {
-            .dashboard-container { padding: 0.5rem; }
-            .header { padding: 1rem; margin-bottom: 1rem;}
-            .header h1 { font-size: 1.3rem; }
-            
-            .grid-layout { 
-                grid-template-columns: 1fr; 
-                gap: 1rem; 
-            }
-            
-            .panel-grafico { 
-                height: 50vh; 
-                min-height: 400px; 
-                max-height: none;
-            }
-            
-            .double-canvas-container { 
-                flex-direction: column; 
-            }
-            .half-canvas { 
-                width: 100%; 
-                height: 350px; 
-            }
-            #bono .panel-grafico { 
-                height: auto; 
-                min-height: 800px; 
-            }
-            .filtros-container {
-                gap: 0.8rem;
-            }
-        }
-    </style>
+    
+    <!-- Enlace a la Hoja de Estilos -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -285,6 +29,20 @@
 
         <!-- Pestaña 1: Pirámide -->
         <div id="piramide" class="tab-content" style="display: block;">
+            
+            <!-- Barra de Controles (Fuera de los paneles blancos) -->
+            <div class="control-bar">
+                <div class="selector-botones">
+                    <button class="btn-grafico active" onclick="setJurisdiccion('chaco', this)">Chaco</button>
+                    <button class="btn-grafico" onclick="setJurisdiccion('pais', this)">Total País</button>
+                </div>
+                <div class="selector-botones">
+                    <button class="btn-grafico" onclick="setAnio(2001, this)">Censo 2001</button>
+                    <button class="btn-grafico" onclick="setAnio(2010, this)">Censo 2010</button>
+                    <button class="btn-grafico active" onclick="setAnio(2022, this)">Censo 2022</button>
+                </div>
+            </div>
+
             <div class="grid-layout">
                 <div class="panel-texto">
                     <h2>Pirámides Poblacionales</h2>
@@ -295,17 +53,6 @@
                     </ul>
                 </div>
                 <div class="panel-grafico">
-                    <div class="filtros-container">
-                        <div class="selector-botones" id="botones-jurisdiccion">
-                            <button class="btn-grafico active" onclick="setJurisdiccion('chaco', this)">Chaco</button>
-                            <button class="btn-grafico" onclick="setJurisdiccion('pais', this)">Total País</button>
-                        </div>
-                        <div class="selector-botones" id="botones-anio">
-                            <button class="btn-grafico" onclick="setAnio(2001, this)">Censo 2001</button>
-                            <button class="btn-grafico" onclick="setAnio(2010, this)">Censo 2010</button>
-                            <button class="btn-grafico active" onclick="setAnio(2022, this)">Censo 2022</button>
-                        </div>
-                    </div>
                     <div class="canvas-container">
                         <canvas id="chartPiramide"></canvas>
                     </div>
@@ -316,6 +63,15 @@
 
         <!-- Pestaña 2: Grandes Grupos de Edad -->
         <div id="grupos" class="tab-content">
+            
+            <!-- Barra de Controles -->
+            <div class="control-bar">
+                <div class="selector-botones">
+                    <button class="btn-grafico active" onclick="setGruposVista('chaco', this)">Ver Chaco</button>
+                    <button class="btn-grafico" onclick="setGruposVista('pais', this)">Ver Total País</button>
+                </div>
+            </div>
+
             <div class="grid-layout">
                 <div class="panel-texto">
                     <h2>Composición por rango etario</h2>
@@ -327,12 +83,6 @@
                     </ul>
                 </div>
                 <div class="panel-grafico">
-                    <div class="filtros-container">
-                        <div class="selector-botones" id="botones-grupos">
-                            <button class="btn-grafico active" onclick="setGruposVista('chaco', this)">Ver Chaco</button>
-                            <button class="btn-grafico" onclick="setGruposVista('pais', this)">Ver Total País</button>
-                        </div>
-                    </div>
                     <div class="canvas-container">
                         <canvas id="chartGrupos"></canvas>
                     </div>
@@ -383,6 +133,7 @@
         </div>
     </div>
 
+    <!-- Scripts de Funcionalidad JavaScript -->
     <script>
         Chart.register(ChartDataLabels);
 
@@ -398,9 +149,7 @@
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.font.size = 12;
 
-        /* =======================================================================
-           1. PIRÁMIDE POBLACIONAL
-           ======================================================================= */
+        /* --- 1. PIRÁMIDE POBLACIONAL --- */
         const edadesQuinquenales = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
         
         const datosPiramide = {
@@ -451,12 +200,24 @@
             chartPiramide.options.plugins.title.text = `Estructura por edad y sexo - ${tituloJur} (Censo ${currentAnio})`;
             chartPiramide.update();
         }
-        function setJurisdiccion(jur, btn) { currentJurisdiccion = jur; document.querySelectorAll('#botones-jurisdiccion .btn-grafico').forEach(b => b.classList.remove('active')); btn.classList.add('active'); actualizarGraficoPiramide(); }
-        function setAnio(anio, btn) { currentAnio = anio; document.querySelectorAll('#botones-anio .btn-grafico').forEach(b => b.classList.remove('active')); btn.classList.add('active'); actualizarGraficoPiramide(); }
 
-        /* =======================================================================
-           2. GRANDES GRUPOS DE EDAD
-           ======================================================================= */
+        // Script modificado para asegurar que el botón activo cambie solo en la barra de control correspondiente
+        function setJurisdiccion(jur, btn) { 
+            currentJurisdiccion = jur; 
+            const container = btn.closest('.selector-botones');
+            container.querySelectorAll('.btn-grafico').forEach(b => b.classList.remove('active')); 
+            btn.classList.add('active'); 
+            actualizarGraficoPiramide(); 
+        }
+        function setAnio(anio, btn) { 
+            currentAnio = anio; 
+            const container = btn.closest('.selector-botones');
+            container.querySelectorAll('.btn-grafico').forEach(b => b.classList.remove('active')); 
+            btn.classList.add('active'); 
+            actualizarGraficoPiramide(); 
+        }
+
+        /* --- 2. GRANDES GRUPOS DE EDAD --- */
         const dataGrupos = {
             chaco: [
                 { label: '0 a 14 años', data: [36.06, 30.36, 24.26], backgroundColor: '#1abc9c' },
@@ -485,7 +246,8 @@
         });
 
         function setGruposVista(vista, btn) {
-            document.querySelectorAll('#botones-grupos .btn-grafico').forEach(b => b.classList.remove('active'));
+            const container = btn.closest('.selector-botones');
+            container.querySelectorAll('.btn-grafico').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             chartGrupos.data.datasets = dataGrupos[vista];
             const titulo = vista === 'chaco' ? 'Chaco' : 'Total País';
@@ -493,9 +255,7 @@
             chartGrupos.update();
         }
 
-        /* =======================================================================
-           3. BONO DEMOGRÁFICO Y DEPENDENCIAS
-           ======================================================================= */
+        /* --- 3. BONO DEMOGRÁFICO Y DEPENDENCIAS --- */
         const colorTotal = '#2d3436';
         const colorJuvenil = '#f39c12';
         const colorVejez = '#27ae60';

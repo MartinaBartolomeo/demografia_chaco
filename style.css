@@ -1,0 +1,213 @@
+/* Normalización y Tipografía Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    color: #2d3436;
+    line-height: 1.5;
+}
+
+/* ----------------------------------------------------
+   ESTRUCTURA PRINCIPAL Y ENCABEZADO
+   ---------------------------------------------------- */
+.dashboard-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 1.5rem; 
+}
+
+.header {
+    background: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-bottom: 1.5rem;
+}
+
+.header h1 {
+    font-family: 'Merriweather', serif;
+    color: #2c3e50;
+    font-size: 1.8rem; 
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 0.8rem;
+}
+
+/* ----------------------------------------------------
+   SISTEMA DE PESTAÑAS
+   ---------------------------------------------------- */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-link {
+    font-family: 'Inter', sans-serif;
+    background: none;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    color: #636e72;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-link:hover { color: #0984e3; }
+.tab-link.active {
+    color: #0984e3;
+    font-weight: 600;
+    border-bottom: 3px solid #0984e3;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------
+   BARRA DE CONTROLES (CAJAS DE BOTONES)
+   ---------------------------------------------------- */
+.control-bar {
+    display: flex;
+    flex-wrap: wrap;       /* Permite que los botones bajen si no hay espacio */
+    justify-content: center; /* Los centra armónicamente */
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;   /* Espacio entre los botones y los gráficos */
+    width: 100%;
+}
+
+.selector-botones {
+    display: inline-flex;
+    background-color: #ffffff; /* Caja blanca para resaltar sobre el fondo gris */
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.btn-grafico {
+    padding: 6px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #64748b;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.btn-grafico:hover { color: #0984e3; }
+.btn-grafico.active {
+    background-color: #0984e3;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3);
+}
+
+/* ----------------------------------------------------
+   PANELES Y GRILLAS
+   ---------------------------------------------------- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.grid-layout-full {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.panel-texto {
+    background-color: #ffffff;
+    padding: 2rem 1.5rem;
+    border-left: 6px solid #0984e3;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.panel-texto.full-width { border-left: 6px solid #27ae60; }
+.panel-texto h2 { font-family: 'Merriweather', serif; color: #2980b9; margin-bottom: 1.2rem; font-size: 1.25rem; }
+.panel-texto h2.sub { margin-top: 1.5rem; }
+.panel-texto.full-width h2 { color: #27ae60; }
+
+.panel-texto ul { list-style: none; }
+.panel-texto li {
+    margin-bottom: 1rem;
+    font-size: 0.95rem; 
+    color: #4a5568;
+    text-align: justify;
+    position: relative;
+    padding-left: 1.5rem;
+}
+.panel-texto li::before {
+    content: "•"; color: #0984e3; font-weight: bold; font-size: 1.5rem;
+    position: absolute; left: 0; top: -6px;
+}
+.panel-texto.full-width li::before { color: #27ae60; }
+
+.panel-grafico {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    height: 62vh; 
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.canvas-container {
+    width: 100%;
+    flex-grow: 1; 
+    position: relative;
+}
+
+.double-canvas-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1.5rem;
+}
+.half-canvas { width: 50%; height: 100%; position: relative; }
+canvas { width: 100% !important; height: 100% !important; }
+
+.fuente-texto {
+    font-size: 0.8rem; color: #7f8c8d; margin-top: 8px; width: 100%;
+    text-align: left; font-style: italic;
+}
+
+/* ----------------------------------------------------
+   DISEÑO RESPONSIVO (Mobile First y Adaptación)
+   ---------------------------------------------------- */
+@media (max-width: 1024px) {
+    .dashboard-container { padding: 0.5rem; }
+    .header { padding: 1rem; margin-bottom: 1rem;}
+    .header h1 { font-size: 1.3rem; }
+    
+    .control-bar { gap: 0.8rem; margin-bottom: 1rem; }
+    
+    .grid-layout { grid-template-columns: 1fr; gap: 1rem; }
+    
+    .panel-grafico { height: 50vh; min-height: 400px; }
+    
+    .double-canvas-container { flex-direction: column; }
+    .half-canvas { width: 100%; height: 350px; }
+    #bono .panel-grafico { height: auto; min-height: 800px; }
+}
