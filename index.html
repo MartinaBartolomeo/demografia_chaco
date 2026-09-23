@@ -20,12 +20,12 @@
         }
 
         /* ----------------------------------------------------
-           AJUSTES PARA DESKTOP (No verse "tan gigante")
+           AJUSTES PARA DESKTOP
            ---------------------------------------------------- */
         .dashboard-container {
             max-width: 1500px;
             margin: 0 auto;
-            padding: 1.5rem; /* Reducido para ahorrar espacio vertical */
+            padding: 1.5rem; 
         }
 
         .header {
@@ -39,7 +39,7 @@
         .header h1 {
             font-family: 'Merriweather', serif;
             color: #2c3e50;
-            font-size: 1.8rem; /* Reducido de 2.1 a 1.8 */
+            font-size: 1.8rem; 
             margin-bottom: 1rem;
             border-bottom: 2px solid #ecf0f1;
             padding-bottom: 0.8rem;
@@ -82,7 +82,7 @@
 
         .grid-layout {
             display: grid;
-            grid-template-columns: 1fr 2fr; /* Ligeramente más proporcionado */
+            grid-template-columns: 1fr 2fr; 
             gap: 1.5rem;
             align-items: stretch;
         }
@@ -129,7 +129,7 @@
         
         .panel-texto li {
             margin-bottom: 1rem;
-            font-size: 0.95rem; /* Reducido para mejor lectura */
+            font-size: 0.95rem; 
             color: #4a5568;
             text-align: justify;
             position: relative;
@@ -152,7 +152,6 @@
             border-radius: 12px;
             padding: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            /* AJUSTE CLAVE: Altura dinámica para no forzar el scroll en Desktop */
             height: 62vh; 
             min-height: 400px;
             max-height: 550px;
@@ -163,44 +162,52 @@
             position: relative;
         }
 
+        /* ----------------------------------------------------
+           NUEVO DISEÑO DE BOTONES TIPO "CAJA" (Segmented Control)
+           ---------------------------------------------------- */
         .filtros-container {
             display: flex;
+            flex-wrap: wrap; /* Evita que se aplasten en pantallas chicas */
             gap: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             width: 100%;
-            justify-content: flex-start;
+            justify-content: center; /* Centrados quedan más armónicos */
+            align-items: center;
         }
 
         .selector-botones {
-            display: flex;
-            gap: 5px;
-            background: #f8f9fa;
+            display: inline-flex;
+            background-color: #f1f5f9; /* Caja gris muy sutil */
             padding: 5px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
+            border-radius: 8px; /* Bordes redondeados para la caja principal */
+            border: 1px solid #e2e8f0;
         }
 
         .btn-grafico {
-            padding: 6px 12px;
+            padding: 6px 16px;
             border: none;
             background: transparent;
-            border-radius: 4px;
+            border-radius: 6px; /* Borde interior del botón */
             cursor: pointer;
-            font-weight: 500;
-            color: #636e72;
-            transition: all 0.2s;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.2s ease;
             font-size: 0.9rem;
         }
 
+        .btn-grafico:hover {
+            color: #0984e3;
+        }
+
         .btn-grafico.active {
-            background: #0984e3;
-            color: white;
-            box-shadow: 0 2px 4px rgba(9,132,227,0.3);
+            background-color: #0984e3;
+            color: #ffffff;
+            box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3); /* Sombra elegante que lo hace "resaltar" */
         }
 
         .canvas-container {
             width: 100%;
-            flex-grow: 1; /* Para que ocupe todo el espacio sobrante */
+            flex-grow: 1; 
             position: relative;
         }
 
@@ -229,14 +236,13 @@
         }
 
         /* ----------------------------------------------------
-           AJUSTES PARA MOBILE (Mobile First adaptado)
+           AJUSTES PARA MOBILE 
            ---------------------------------------------------- */
         @media (max-width: 1024px) {
             .dashboard-container { padding: 0.5rem; }
             .header { padding: 1rem; margin-bottom: 1rem;}
             .header h1 { font-size: 1.3rem; }
             
-            /* En móvil, los paneles se apilan (una sola columna) */
             .grid-layout { 
                 grid-template-columns: 1fr; 
                 gap: 1rem; 
@@ -248,7 +254,6 @@
                 max-height: none;
             }
             
-            /* En la pestaña 3, apilamos los dos gráficos uno debajo del otro */
             .double-canvas-container { 
                 flex-direction: column; 
             }
@@ -259,6 +264,9 @@
             #bono .panel-grafico { 
                 height: auto; 
                 min-height: 800px; 
+            }
+            .filtros-container {
+                gap: 0.8rem;
             }
         }
     </style>
