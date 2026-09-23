@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     
-    <!-- Enlace a la Hoja de Estilos -->
+    <!-- Llamada a nuestro archivo CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,20 +29,6 @@
 
         <!-- Pestaña 1: Pirámide -->
         <div id="piramide" class="tab-content" style="display: block;">
-            
-            <!-- Barra de Controles (Fuera de los paneles blancos) -->
-            <div class="control-bar">
-                <div class="selector-botones">
-                    <button class="btn-grafico active" onclick="setJurisdiccion('chaco', this)">Chaco</button>
-                    <button class="btn-grafico" onclick="setJurisdiccion('pais', this)">Total País</button>
-                </div>
-                <div class="selector-botones">
-                    <button class="btn-grafico" onclick="setAnio(2001, this)">Censo 2001</button>
-                    <button class="btn-grafico" onclick="setAnio(2010, this)">Censo 2010</button>
-                    <button class="btn-grafico active" onclick="setAnio(2022, this)">Censo 2022</button>
-                </div>
-            </div>
-
             <div class="grid-layout">
                 <div class="panel-texto">
                     <h2>Pirámides Poblacionales</h2>
@@ -53,6 +39,17 @@
                     </ul>
                 </div>
                 <div class="panel-grafico">
+                    <div class="filtros-container">
+                        <div class="selector-botones" id="botones-jurisdiccion">
+                            <button class="btn-grafico active" onclick="setJurisdiccion('chaco', this)">Chaco</button>
+                            <button class="btn-grafico" onclick="setJurisdiccion('pais', this)">Total País</button>
+                        </div>
+                        <div class="selector-botones" id="botones-anio">
+                            <button class="btn-grafico" onclick="setAnio(2001, this)">Censo 2001</button>
+                            <button class="btn-grafico" onclick="setAnio(2010, this)">Censo 2010</button>
+                            <button class="btn-grafico active" onclick="setAnio(2022, this)">Censo 2022</button>
+                        </div>
+                    </div>
                     <div class="canvas-container">
                         <canvas id="chartPiramide"></canvas>
                     </div>
@@ -63,15 +60,6 @@
 
         <!-- Pestaña 2: Grandes Grupos de Edad -->
         <div id="grupos" class="tab-content">
-            
-            <!-- Barra de Controles -->
-            <div class="control-bar">
-                <div class="selector-botones">
-                    <button class="btn-grafico active" onclick="setGruposVista('chaco', this)">Ver Chaco</button>
-                    <button class="btn-grafico" onclick="setGruposVista('pais', this)">Ver Total País</button>
-                </div>
-            </div>
-
             <div class="grid-layout">
                 <div class="panel-texto">
                     <h2>Composición por rango etario</h2>
@@ -83,6 +71,12 @@
                     </ul>
                 </div>
                 <div class="panel-grafico">
+                    <div class="filtros-container">
+                        <div class="selector-botones" id="botones-grupos">
+                            <button class="btn-grafico active" onclick="setGruposVista('chaco', this)">Ver Chaco</button>
+                            <button class="btn-grafico" onclick="setGruposVista('pais', this)">Ver Total País</button>
+                        </div>
+                    </div>
                     <div class="canvas-container">
                         <canvas id="chartGrupos"></canvas>
                     </div>
@@ -201,7 +195,6 @@
             chartPiramide.update();
         }
 
-        // Script modificado para asegurar que el botón activo cambie solo en la barra de control correspondiente
         function setJurisdiccion(jur, btn) { 
             currentJurisdiccion = jur; 
             const container = btn.closest('.selector-botones');

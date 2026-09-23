@@ -9,7 +9,7 @@ body {
 }
 
 /* ----------------------------------------------------
-   ESTRUCTURA PRINCIPAL Y ENCABEZADO
+   AJUSTES PARA DESKTOP
    ---------------------------------------------------- */
 .dashboard-container {
     max-width: 1500px;
@@ -73,46 +73,6 @@ body {
 }
 
 /* ----------------------------------------------------
-   BARRA DE CONTROLES (CAJAS DE BOTONES)
-   ---------------------------------------------------- */
-.control-bar {
-    display: flex;
-    flex-wrap: wrap;       /* Permite que los botones bajen si no hay espacio */
-    justify-content: center; /* Los centra armónicamente */
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;   /* Espacio entre los botones y los gráficos */
-    width: 100%;
-}
-
-.selector-botones {
-    display: inline-flex;
-    background-color: #ffffff; /* Caja blanca para resaltar sobre el fondo gris */
-    padding: 5px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-}
-
-.btn-grafico {
-    padding: 6px 16px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #64748b;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-}
-
-.btn-grafico:hover { color: #0984e3; }
-.btn-grafico.active {
-    background-color: #0984e3;
-    color: #ffffff;
-    box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3);
-}
-
-/* ----------------------------------------------------
    PANELES Y GRILLAS
    ---------------------------------------------------- */
 .grid-layout {
@@ -144,7 +104,15 @@ body {
 .panel-texto h2.sub { margin-top: 1.5rem; }
 .panel-texto.full-width h2 { color: #27ae60; }
 
+.panel-texto p {
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    color: #4a5568;
+    text-align: justify;
+}
+
 .panel-texto ul { list-style: none; }
+
 .panel-texto li {
     margin-bottom: 1rem;
     font-size: 0.95rem; 
@@ -153,6 +121,7 @@ body {
     position: relative;
     padding-left: 1.5rem;
 }
+
 .panel-texto li::before {
     content: "•"; color: #0984e3; font-weight: bold; font-size: 1.5rem;
     position: absolute; left: 0; top: -6px;
@@ -164,8 +133,9 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    height: 62vh; 
-    min-height: 400px;
+    height: 65vh; 
+    min-height: 450px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -173,6 +143,52 @@ body {
     position: relative;
 }
 
+/* ----------------------------------------------------
+   SISTEMA DE BOTONES (FLEXBOX SEGURO)
+   ---------------------------------------------------- */
+.filtros-container {
+    display: flex;
+    flex-wrap: wrap; /* Envoltorio automático */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.selector-botones {
+    display: inline-flex;
+    flex-wrap: wrap; /* Envoltorio interno */
+    justify-content: center;
+    background-color: #f1f5f9;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-grafico {
+    padding: 6px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #64748b;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    margin: 2px;
+}
+
+.btn-grafico:hover { color: #0984e3; }
+.btn-grafico.active {
+    background-color: #0984e3;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3);
+}
+
+/* ----------------------------------------------------
+   LIENZOS DE LOS GRÁFICOS
+   ---------------------------------------------------- */
 .canvas-container {
     width: 100%;
     flex-grow: 1; 
@@ -185,29 +201,45 @@ body {
     display: flex;
     gap: 1.5rem;
 }
-.half-canvas { width: 50%; height: 100%; position: relative; }
+
+.half-canvas {
+    width: 50%;
+    height: 100%;
+    position: relative;
+}
+
 canvas { width: 100% !important; height: 100% !important; }
 
 .fuente-texto {
-    font-size: 0.8rem; color: #7f8c8d; margin-top: 8px; width: 100%;
-    text-align: left; font-style: italic;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 15px;
+    width: 100%;
+    text-align: left;
+    font-style: italic;
 }
 
 /* ----------------------------------------------------
-   DISEÑO RESPONSIVO (Mobile First y Adaptación)
+   AJUSTES PARA MOBILE FIRST (TELÉFONOS Y TABLETS)
    ---------------------------------------------------- */
 @media (max-width: 1024px) {
     .dashboard-container { padding: 0.5rem; }
     .header { padding: 1rem; margin-bottom: 1rem;}
     .header h1 { font-size: 1.3rem; }
     
-    .control-bar { gap: 0.8rem; margin-bottom: 1rem; }
-    
     .grid-layout { grid-template-columns: 1fr; gap: 1rem; }
     
-    .panel-grafico { height: 50vh; min-height: 400px; }
+    .panel-grafico { 
+        height: 65vh; 
+        min-height: 500px; /* Gráfico más alto en móviles */
+        max-height: none;
+        padding: 1rem;
+    }
+    
+    .filtros-container { gap: 0.5rem; margin-bottom: 1rem; }
     
     .double-canvas-container { flex-direction: column; }
-    .half-canvas { width: 100%; height: 350px; }
-    #bono .panel-grafico { height: auto; min-height: 800px; }
+    .half-canvas { width: 100%; height: 450px; }
+    
+    #bono .panel-grafico { height: auto; min-height: 1000px; }
 }
