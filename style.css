@@ -2,32 +2,32 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: #f4f7f6;
-    color: #2d3436;
-    line-height: 1.5;
+    color: #2c3e50;
+    line-height: 1.6;
 }
 
 /* ----------------------------------------------------
-   AJUSTES PARA DESKTOP
+   ESTRUCTURA PRINCIPAL Y ENCABEZADO
    ---------------------------------------------------- */
 .dashboard-container {
     max-width: 1500px;
     margin: 0 auto;
-    padding: 1.5rem; 
+    padding: 2rem; 
 }
 
 .header {
     background: #ffffff;
     padding: 1.5rem 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     margin-bottom: 1.5rem;
 }
 
 .header h1 {
-    font-family: 'Merriweather', serif;
-    color: #2c3e50;
+    font-family: 'Georgia', serif;
+    color: #1a252f;
     font-size: 1.8rem; 
     margin-bottom: 1rem;
     border-bottom: 2px solid #ecf0f1;
@@ -39,27 +39,28 @@ body {
    ---------------------------------------------------- */
 .tabs {
     display: flex;
-    gap: 0.5rem;
+    border-bottom: 2px solid #ecf0f1;
+    gap: 5px;
     flex-wrap: wrap;
 }
 
 .tab-link {
-    font-family: 'Inter', sans-serif;
-    background: none;
+    background-color: transparent;
     border: none;
-    padding: 0.6rem 1.2rem;
+    padding: 12px 20px;
     font-size: 1rem;
-    color: #636e72;
+    font-weight: 600;
+    color: #7f8c8d;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
+    margin-bottom: -2px; 
 }
 
-.tab-link:hover { color: #0984e3; }
+.tab-link:hover { color: #2980b9; }
 .tab-link.active {
-    color: #0984e3;
-    font-weight: 600;
-    border-bottom: 3px solid #0984e3;
+    color: #2980b9;
+    border-bottom: 3px solid #2980b9;
 }
 
 .tab-content {
@@ -73,173 +74,189 @@ body {
 }
 
 /* ----------------------------------------------------
-   PANELES Y GRILLAS
+   GRILLA PRINCIPAL (FLEXBOX)
    ---------------------------------------------------- */
 .grid-layout {
-    display: grid;
-    grid-template-columns: 1fr 2fr; 
-    gap: 1.5rem;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: stretch; /* Ambos paneles tendrán la misma altura en PC */
+    margin-top: 1rem;
 }
 
 .grid-layout-full {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
 }
 
+/* ----------------------------------------------------
+   PANELES TIPO "CAJA" (BORDES Y FONDOS ESTRICTOS)
+   ---------------------------------------------------- */
 .panel-texto {
+    flex: 1; /* Ocupa la fracción de espacio asignada */
     background-color: #ffffff;
-    padding: 2rem 1.5rem;
-    border-left: 6px solid #0984e3;
+    padding: 2rem;
+    border-left: 8px solid #2980b9;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    /* Flexbox interno para centrar el texto verticalmente */
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.panel-texto.full-width { border-left: 6px solid #27ae60; }
-.panel-texto h2 { font-family: 'Merriweather', serif; color: #2980b9; margin-bottom: 1.2rem; font-size: 1.25rem; }
+.panel-texto.full-width { border-left: 8px solid #27ae60; }
+.panel-texto h2 { font-family: 'Georgia', serif; color: #2980b9; margin-bottom: 1.2rem; font-size: 1.4rem; }
 .panel-texto h2.sub { margin-top: 1.5rem; }
 .panel-texto.full-width h2 { color: #27ae60; }
 
-.panel-texto p {
-    margin-bottom: 1.2rem;
-    font-size: 1rem;
-    color: #4a5568;
-    text-align: justify;
-}
-
-.panel-texto ul { list-style: none; }
-
+.panel-texto ul { list-style: none; padding-bottom: 1rem; }
 .panel-texto li {
-    margin-bottom: 1rem;
-    font-size: 0.95rem; 
-    color: #4a5568;
+    margin-bottom: 1.2rem;
+    font-size: 1rem; 
+    color: #34495e;
     text-align: justify;
     position: relative;
     padding-left: 1.5rem;
 }
-
 .panel-texto li::before {
-    content: "•"; color: #0984e3; font-weight: bold; font-size: 1.5rem;
-    position: absolute; left: 0; top: -6px;
+    content: "•"; color: #2980b9; font-weight: bold; font-size: 1.5rem;
+    position: absolute; left: 0; top: -5px;
 }
 .panel-texto.full-width li::before { color: #27ae60; }
 
 .panel-grafico {
+    flex: 2; /* El gráfico es más ancho que el texto en PC */
     background-color: #ffffff;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    height: 65vh; 
-    min-height: 450px;
-    max-height: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #e1e8ed; 
+    
+    /* Flexbox estricto para que los botones y el canvas no colisionen */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    min-height: 500px;
+    overflow: hidden; /* Evita que el contenido desborde la caja blanca */
 }
 
 /* ----------------------------------------------------
-   SISTEMA DE BOTONES (FLEXBOX SEGURO)
+   CAJA DE BOTONES (SEGMENTED CONTROL)
    ---------------------------------------------------- */
 .filtros-container {
     display: flex;
-    flex-wrap: wrap; /* Envoltorio automático */
-    gap: 1rem;
+    flex-wrap: wrap; 
+    gap: 15px;
     margin-bottom: 1.5rem;
     width: 100%;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0; /* Impide que el canvas aplaste a los botones */
 }
 
 .selector-botones {
-    display: inline-flex;
-    flex-wrap: wrap; /* Envoltorio interno */
-    justify-content: center;
-    background-color: #f1f5f9;
-    padding: 4px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-wrap: nowrap; 
+    background-color: #e9ecef; 
+    padding: 6px;
+    border-radius: 10px; 
+    border: 1px solid #ced4da; 
 }
 
 .btn-grafico {
-    padding: 6px 16px;
+    padding: 8px 16px;
     border: none;
     background: transparent;
-    border-radius: 6px;
+    border-radius: 6px; 
     cursor: pointer;
     font-weight: 600;
-    color: #64748b;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-    margin: 2px;
+    color: #6c757d;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    white-space: nowrap; 
 }
 
-.btn-grafico:hover { color: #0984e3; }
+.btn-grafico:hover { color: #2c3e50; }
 .btn-grafico.active {
-    background-color: #0984e3;
+    background-color: #2980b9; 
     color: #ffffff;
-    box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
 }
 
 /* ----------------------------------------------------
-   LIENZOS DE LOS GRÁFICOS
+   CONTENEDORES DE GRÁFICOS
    ---------------------------------------------------- */
 .canvas-container {
     width: 100%;
-    flex-grow: 1; 
+    flex-grow: 1; /* Ocupa el espacio restante debajo de los botones */
     position: relative;
+    min-height: 350px; 
 }
 
 .double-canvas-container {
     width: 100%;
-    height: 100%;
     display: flex;
+    flex-direction: row;
     gap: 1.5rem;
+    flex-grow: 1;
 }
 
 .half-canvas {
-    width: 50%;
-    height: 100%;
+    flex: 1; 
     position: relative;
+    min-height: 350px;
 }
 
 canvas { width: 100% !important; height: 100% !important; }
 
 .fuente-texto {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #7f8c8d;
     margin-top: 15px;
     width: 100%;
     text-align: left;
     font-style: italic;
+    flex-shrink: 0; /* Impide que el canvas la aplaste */
 }
 
 /* ----------------------------------------------------
-   AJUSTES PARA MOBILE FIRST (TELÉFONOS Y TABLETS)
+   DISEÑO RESPONSIVO (MOBILE FIRST CORREGIDO)
    ---------------------------------------------------- */
 @media (max-width: 1024px) {
-    .dashboard-container { padding: 0.5rem; }
-    .header { padding: 1rem; margin-bottom: 1rem;}
-    .header h1 { font-size: 1.3rem; }
+    .dashboard-container { padding: 1rem; }
+    .header { padding: 1.5rem; margin-bottom: 1rem;}
+    .header h1 { font-size: 1.4rem; }
     
-    .grid-layout { grid-template-columns: 1fr; gap: 1rem; }
-    
-    .panel-grafico { 
-        height: 65vh; 
-        min-height: 500px; /* Gráfico más alto en móviles */
-        max-height: none;
-        padding: 1rem;
+    /* Pasa de fila a columna */
+    .grid-layout { 
+        flex-direction: column; 
+        gap: 1.5rem; 
     }
     
-    .filtros-container { gap: 0.5rem; margin-bottom: 1rem; }
+    /* El panel de texto se vuelve estático y muestra todo su contenido */
+    .panel-texto {
+        flex: none;
+        height: auto;
+    }
     
-    .double-canvas-container { flex-direction: column; }
-    .half-canvas { width: 100%; height: 450px; }
+    /* El panel gráfico necesita altura fija en móvil para que Chart.js dibuje */
+    .panel-grafico { 
+        flex: none;
+        height: 600px; /* Altura suficiente para botones + gráfico */
+    }
     
-    #bono .panel-grafico { height: auto; min-height: 1000px; }
+    .btn-grafico { padding: 6px 12px; font-size: 0.85rem; }
+    
+    /* Pestaña 3 (Doble gráfico) en móvil */
+    .double-canvas-container { 
+        flex-direction: column; 
+    }
+    .half-canvas { height: 350px; width: 100%; }
+    
+    /* Contenedor enorme para la pestaña 3 en celulares */
+    #bono .panel-grafico { 
+        height: 900px; 
+    }
 }
