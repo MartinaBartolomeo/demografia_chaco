@@ -4,209 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demografía Social - Provincia del Chaco (Siglo XXI)</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
-    <!-- Chart.js y DataLabels Plugin -->
+    
+    <!-- Dependencias Externas -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f7f6;
-            color: #2d3436;
-            line-height: 1.7;
-        }
-        .dashboard-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .header {
-            background: #ffffff;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 2rem;
-        }
-        .header h1 {
-            font-family: 'Merriweather', serif;
-            color: #2c3e50;
-            font-size: 2.1rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 1rem;
-        }
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .tab-link {
-            font-family: 'Inter', sans-serif;
-            background: none;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.05rem;
-            color: #636e72;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .tab-link:hover { color: #0984e3; }
-        .tab-link.active {
-            color: #0984e3;
-            font-weight: 600;
-            border-bottom: 3px solid #0984e3;
-        }
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 2.3fr;
-            gap: 2rem;
-            align-items: stretch;
-        }
-        .grid-layout-full {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        .panel-texto {
-            background-color: #ffffff;
-            padding: 2.5rem 2rem;
-            border-left: 6px solid #0984e3;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            overflow-y: auto;
-        }
-        .panel-texto.full-width {
-            border-left: 6px solid #27ae60;
-        }
-        .panel-texto h2 {
-            font-family: 'Merriweather', serif;
-            color: #2980b9;
-            margin-bottom: 1.5rem;
-            font-size: 1.35rem;
-        }
-        .panel-texto.full-width h2 {
-            color: #27ae60;
-        }
-        .panel-texto p {
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            color: #4a5568;
-            text-align: justify;
-        }
-        .panel-texto ul { list-style: none; }
-        .panel-texto li {
-            margin-bottom: 1.2rem;
-            font-size: 1.02rem;
-            color: #4a5568;
-            text-align: justify;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        .panel-texto li::before {
-            content: "•";
-            color: #0984e3;
-            font-weight: bold;
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -5px;
-        }
-        .panel-texto.full-width li::before {
-            color: #27ae60;
-        }
-        .panel-grafico {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            height: 650px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        .filtros-container {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        .selector-botones {
-            display: flex;
-            gap: 10px;
-            background: #f8f9fa;
-            padding: 5px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-        .btn-grafico {
-            padding: 6px 14px;
-            border: none;
-            background: transparent;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            color: #636e72;
-            transition: all 0.2s;
-        }
-        .btn-grafico.active {
-            background: #0984e3;
-            color: white;
-            box-shadow: 0 2px 4px rgba(9,132,227,0.3);
-        }
-        .canvas-container {
-            width: 100%;
-            height: 80%;
-            position: relative;
-        }
-        .double-canvas-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            gap: 1.5rem;
-        }
-        .half-canvas {
-            width: 50%;
-            height: 100%;
-            position: relative;
-        }
-        canvas { width: 100% !important; height: 100% !important; }
-        .fuente-texto {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            margin-top: 10px;
-            width: 100%;
-            text-align: left;
-            font-style: italic;
-        }
-    </style>
+    
+    <!-- Tu archivo CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="dashboard-container">
-        <div class="header">
-            <h1>Estructura por Edad/Sexo y Envejecimiento Poblacional: Chaco vs. Total País (2001-2022)</h1>
-            <div class="tabs">
-                <button class="tab-link active" onclick="abrirPestana(event, 'piramide')">1. Pirámide y Masculinidad</button>
-                <button class="tab-link" onclick="abrirPestana(event, 'grupos')">2. Grupos de Edad y Feminización</button>
-                <button class="tab-link" onclick="abrirPestana(event, 'bono')">3. Bono Demográfico y Cuidados</button>
-                <button class="tab-link" onclick="abrirPestana(event, 'reflexiones')">4. Reflexiones Finales</button>
-            </div>
+        <h1>Estructura por Edad/Sexo y Envejecimiento Poblacional: Chaco vs. Total País (2001-2022)</h1>
+        
+        <div class="tabs">
+            <button class="tab-link active" onclick="abrirPestana(event, 'piramide')">1. Pirámide y Masculinidad</button>
+            <button class="tab-link" onclick="abrirPestana(event, 'grupos')">2. Grupos de Edad y Feminización</button>
+            <button class="tab-link" onclick="abrirPestana(event, 'bono')">3. Bono Demográfico y Cuidados</button>
+            <button class="tab-link" onclick="abrirPestana(event, 'reflexiones')">4. Reflexiones Finales</button>
         </div>
 
         <!-- Pestaña 1: Pirámide -->
@@ -222,11 +36,11 @@
                 </div>
                 <div class="panel-grafico">
                     <div class="filtros-container">
-                        <div class="selector-botones" id="botones-jurisdiccion">
+                        <div class="selector-botones">
                             <button class="btn-grafico active" onclick="setJurisdiccion('chaco', this)">Chaco</button>
                             <button class="btn-grafico" onclick="setJurisdiccion('pais', this)">Total País</button>
                         </div>
-                        <div class="selector-botones" id="botones-anio">
+                        <div class="selector-botones">
                             <button class="btn-grafico" onclick="setAnio(2001, this)">Censo 2001</button>
                             <button class="btn-grafico" onclick="setAnio(2010, this)">Censo 2010</button>
                             <button class="btn-grafico active" onclick="setAnio(2022, this)">Censo 2022</button>
@@ -254,7 +68,7 @@
                 </div>
                 <div class="panel-grafico">
                     <div class="filtros-container">
-                        <div class="selector-botones" id="botones-grupos">
+                        <div class="selector-botones">
                             <button class="btn-grafico active" onclick="setGruposVista('chaco', this)">Ver Chaco</button>
                             <button class="btn-grafico" onclick="setGruposVista('pais', this)">Ver Total País</button>
                         </div>
@@ -281,7 +95,7 @@
                         <li>La relación de apoyo a los padres sube de <strong>11,2</strong> a <strong>12,8</strong> personas de 80 y más por cada 100 adultos maduros (50 a 64 años), mostrando la presión incipiente sobre la generación intermedia para el cuidado informal.</li>
                     </ul>
                 </div>
-                <div class="panel-grafico" style="padding: 1.5rem;">
+                <div class="panel-grafico">
                     <div class="double-canvas-container">
                         <div class="half-canvas">
                             <canvas id="chartBonoChaco"></canvas>
@@ -290,7 +104,7 @@
                             <canvas id="chartBonoPais"></canvas>
                         </div>
                     </div>
-                    <div class="fuente-texto" style="margin-top: 15px;">Fuente: INDEC, Censo Nacional de Población, Hogares y Viviendas, años 2001, 2010 y 2022.</div>
+                    <div class="fuente-texto">Fuente: INDEC, Censo Nacional de Población, Hogares y Viviendas, años 2001, 2010 y 2022.</div>
                 </div>
             </div>
         </div>
@@ -309,178 +123,7 @@
         </div>
     </div>
 
-    <script>
-        Chart.register(ChartDataLabels);
-
-        function abrirPestana(evt, idPestana) {
-            const tabs = document.getElementsByClassName("tab-content");
-            for (let t of tabs) t.style.display = "none";
-            const links = document.getElementsByClassName("tab-link");
-            for (let l of links) l.className = l.className.replace(" active", "");
-            document.getElementById(idPestana).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        Chart.defaults.font.family = "'Inter', sans-serif";
-        Chart.defaults.font.size = 13;
-
-        /* =======================================================================
-           1. PIRÁMIDE POBLACIONAL
-           ======================================================================= */
-        const edadesQuinquenales = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
-        
-        const datosPiramide = {
-            chaco: {
-                2022: { varones: [-3.4, -3.9, -4.0, -3.9, -3.8, -3.7, -3.5, -3.3, -3.1, -2.7, -2.3, -2.0, -1.7, -1.3, -1.0, -0.7, -0.4, -0.3], mujeres: [3.3, 3.8, 3.9, 3.8, 3.7, 3.8, 3.7, 3.5, 3.3, 2.9, 2.5, 2.2, 1.8, 1.5, 1.2, 0.9, 0.6, 0.5] },
-                2010: { varones: [-4.2, -4.3, -4.3, -4.3, -4.1, -3.7, -3.4, -3.1, -2.8, -2.5, -2.3, -1.9, -1.6, -1.2, -0.9, -0.7, -0.4, -0.2], mujeres: [4.1, 4.2, 4.2, 4.2, 4.0, 3.6, 3.3, 3.0, 2.7, 2.4, 2.2, 1.9, 1.6, 1.3, 1.0, 0.7, 0.5, 0.3] },
-                2001: { varones: [-5.6, -6.1, -5.9, -5.1, -4.3, -3.5, -3.0, -2.7, -2.5, -2.2, -1.8, -1.5, -1.3, -1.0, -0.7, -0.5, -0.3, -0.2], mujeres: [5.8, 6.2, 5.8, 4.8, 4.1, 3.4, 2.9, 2.6, 2.4, 2.1, 1.8, 1.5, 1.3, 1.0, 0.8, 0.6, 0.4, 0.2] }
-            },
-            pais: {
-                2022: { varones: [-2.7, -3.1, -3.4, -3.5, -3.6, -3.7, -3.7, -3.6, -3.3, -3.0, -2.7, -2.4, -2.1, -1.7, -1.3, -0.9, -0.5, -0.4], mujeres: [2.6, 3.0, 3.3, 3.4, 3.5, 3.7, 3.8, 3.8, 3.5, 3.2, 3.0, 2.7, 2.4, 2.0, 1.6, 1.3, 0.9, 0.8] },
-                2010: { varones: [-3.6, -3.8, -4.0, -4.1, -4.0, -3.8, -3.7, -3.2, -2.9, -2.7, -2.4, -2.1, -1.7, -1.3, -1.0, -0.7, -0.4, -0.3], mujeres: [3.5, 3.7, 3.9, 4.0, 3.9, 3.8, 3.8, 3.3, 3.0, 2.9, 2.6, 2.3, 2.0, 1.6, 1.3, 1.0, 0.7, 0.6] },
-                2001: { varones: [-4.2, -4.5, -4.6, -4.4, -4.1, -3.7, -3.3, -3.0, -2.8, -2.5, -2.3, -2.0, -1.7, -1.4, -1.0, -0.7, -0.4, -0.3], mujeres: [4.1, 4.4, 4.5, 4.3, 4.0, 3.7, 3.4, 3.1, 3.0, 2.7, 2.4, 2.2, 2.0, 1.7, 1.4, 1.1, 0.7, 0.6] }
-            }
-        };
-
-        let currentJurisdiccion = 'chaco';
-        let currentAnio = 2022;
-
-        const ctxPiramide = document.getElementById('chartPiramide').getContext('2d');
-        let chartPiramide = new Chart(ctxPiramide, {
-            type: 'bar',
-            data: {
-                labels: edadesQuinquenales,
-                datasets: [
-                    { label: 'Varones (%)', data: datosPiramide[currentJurisdiccion][currentAnio].varones, backgroundColor: '#662d91' },
-                    { label: 'Mujeres (%)', data: datosPiramide[currentJurisdiccion][currentAnio].mujeres, backgroundColor: '#00a650' }
-                ]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    datalabels: { display: false },
-                    title: { display: true, text: 'Estructura por edad y sexo - Chaco (Censo 2022)', font: { size: 16, family: 'Merriweather' } },
-                    tooltip: { callbacks: { label: function(c) { return c.dataset.label + ': ' + Math.abs(c.parsed.x).toFixed(1) + '%'; } } }
-                },
-                scales: {
-                    x: { min: -8, max: 8, ticks: { callback: function(v) { return Math.abs(v) + '%'; } }, title: { display: true, text: 'Porcentaje de población' } },
-                    y: { stacked: true, reverse: true, title: { display: true, text: 'Rango Etario' } }
-                }
-            }
-        });
-
-        function actualizarGraficoPiramide() {
-            chartPiramide.data.datasets[0].data = datosPiramide[currentJurisdiccion][currentAnio].varones;
-            chartPiramide.data.datasets[1].data = datosPiramide[currentJurisdiccion][currentAnio].mujeres;
-            const tituloJur = currentJurisdiccion === 'chaco' ? 'Chaco' : 'Total País';
-            chartPiramide.options.plugins.title.text = `Estructura por edad y sexo - ${tituloJur} (Censo ${currentAnio})`;
-            chartPiramide.update();
-        }
-        function setJurisdiccion(jur, btn) { currentJurisdiccion = jur; document.querySelectorAll('#botones-jurisdiccion .btn-grafico').forEach(b => b.classList.remove('active')); btn.classList.add('active'); actualizarGraficoPiramide(); }
-        function setAnio(anio, btn) { currentAnio = anio; document.querySelectorAll('#botones-anio .btn-grafico').forEach(b => b.classList.remove('active')); btn.classList.add('active'); actualizarGraficoPiramide(); }
-
-        /* =======================================================================
-           2. GRANDES GRUPOS DE EDAD
-           ======================================================================= */
-        const dataGrupos = {
-            chaco: [
-                { label: '0 a 14 años', data: [36.06, 30.36, 24.26], backgroundColor: '#1abc9c' },
-                { label: '15 a 64 años', data: [57.80, 62.68, 66.94], backgroundColor: '#3498db' },
-                { label: '65 años y más', data: [6.14, 6.96, 8.80], backgroundColor: '#9b59b6' }
-            ],
-            pais: [
-                { label: '0 a 14 años', data: [28.26, 25.48, 22.07], backgroundColor: '#1abc9c' },
-                { label: '15 a 64 años', data: [61.84, 64.29, 66.15], backgroundColor: '#3498db' },
-                { label: '65 años y más', data: [9.89, 10.23, 11.78], backgroundColor: '#9b59b6' }
-            ]
-        };
-
-        const ctxGrupos = document.getElementById('chartGrupos').getContext('2d');
-        let chartGrupos = new Chart(ctxGrupos, {
-            type: 'bar',
-            data: { labels: ['Censo 2001', 'Censo 2010', 'Censo 2022'], datasets: dataGrupos.chaco },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    title: { display: true, text: 'Distribución por Grandes Grupos - Chaco', font: { size: 16, family: 'Merriweather' } },
-                    datalabels: { color: '#ffffff', font: { weight: 'bold', size: 14 }, formatter: function(value) { return value.toFixed(1) + '%'; } }
-                },
-                scales: { x: { stacked: true }, y: { stacked: true, max: 100, title: { display: true, text: 'Porcentaje' } } }
-            }
-        });
-
-        function setGruposVista(vista, btn) {
-            document.querySelectorAll('#botones-grupos .btn-grafico').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            chartGrupos.data.datasets = dataGrupos[vista];
-            const titulo = vista === 'chaco' ? 'Chaco' : 'Total País';
-            chartGrupos.options.plugins.title.text = `Distribución por Grandes Grupos - ${titulo}`;
-            chartGrupos.update();
-        }
-
-        /* =======================================================================
-           3. BONO DEMOGRÁFICO Y DEPENDENCIAS (Dos Paneles Paralelos)
-           ======================================================================= */
-        const colorTotal = '#2d3436';
-        const colorJuvenil = '#f39c12';
-        const colorVejez = '#27ae60';
-
-        const commonOptionsBono = {
-            responsive: true, maintainAspectRatio: false,
-            layout: { padding: { right: 70 } },
-            plugins: {
-                legend: { display: false },
-                datalabels: {
-                    display: function(context) { return context.dataIndex === 2; },
-                    align: 'right', anchor: 'center',
-                    color: function(context) { return context.dataset.borderColor; },
-                    font: { weight: 'bold', size: 12 },
-                    formatter: function(value, context) {
-                        if (context.datasetIndex === 0) return 'Total';
-                        if (context.datasetIndex === 1) return 'Juvenil';
-                        if (context.datasetIndex === 2) return 'Vejez';
-                    }
-                }
-            },
-            scales: {
-                y: { beginAtZero: true, max: 80, title: { display: true, text: 'Inactivos por cada 100 activos' } }
-            }
-        };
-
-        const ctxBonoChaco = document.getElementById('chartBonoChaco').getContext('2d');
-        new Chart(ctxBonoChaco, {
-            type: 'line',
-            data: {
-                labels: ['2001', '2010', '2022'],
-                datasets: [
-                    { label: 'Dep. Total', data: [73.0, 59.5, 49.4], borderColor: colorTotal, backgroundColor: colorTotal, borderWidth: 3, pointRadius: 5 },
-                    { label: 'Dep. Juvenil', data: [62.4, 48.4, 36.2], borderColor: colorJuvenil, backgroundColor: colorJuvenil, borderWidth: 3, pointRadius: 5 },
-                    { label: 'Dep. Vejez', data: [10.6, 11.1, 13.2], borderColor: colorVejez, backgroundColor: colorVejez, borderWidth: 3, pointRadius: 5 }
-                ]
-            },
-            options: {
-                ...commonOptionsBono,
-                plugins: { ...commonOptionsBono.plugins, title: { display: true, text: 'Dependencia - Chaco', font: { size: 15, family: 'Merriweather' } } }
-            }
-        });
-
-        const ctxBonoPais = document.getElementById('chartBonoPais').getContext('2d');
-        new Chart(ctxBonoPais, {
-            type: 'line',
-            data: {
-                labels: ['2001', '2010', '2022'],
-                datasets: [
-                    { label: 'Dep. Total', data: [61.7, 55.6, 51.2], borderColor: colorTotal, backgroundColor: colorTotal, borderWidth: 3, pointRadius: 5 },
-                    { label: 'Dep. Juvenil', data: [45.7, 39.6, 33.4], borderColor: colorJuvenil, backgroundColor: colorJuvenil, borderWidth: 3, pointRadius: 5 },
-                    { label: 'Dep. Vejez', data: [16.0, 15.9, 17.8], borderColor: colorVejez, backgroundColor: colorVejez, borderWidth: 3, pointRadius: 5 }
-                ]
-            },
-            options: {
-                ...commonOptionsBono,
-                plugins: { ...commonOptionsBono.plugins, title: { display: true, text: 'Dependencia - Total País', font: { size: 15, family: 'Merriweather' } } }
-            }
-        });
-    </script>
+    <!-- Tu archivo JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>

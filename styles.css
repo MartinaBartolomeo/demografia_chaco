@@ -1,0 +1,100 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* -------------------------------------------
+   ESTILOS BASE (MÓVIL / MOBILE FIRST) 
+   ------------------------------------------- */
+body { 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    background-color: #ffffff; 
+    color: #2c3e50; 
+    line-height: 1.6; 
+}
+
+.dashboard-container { 
+    width: 100%; 
+    margin: 0 auto; 
+    padding: 1rem; 
+}
+
+h1 { 
+    font-family: 'Georgia', serif; color: #1a252f; border-bottom: 2px solid #ecf0f1; 
+    padding-bottom: 1rem; margin-bottom: 1.5rem; font-size: 1.4rem;
+}
+h2 { font-family: 'Georgia', serif; color: #2980b9; margin-bottom: 1rem; font-size: 1.2rem; }
+
+.tabs { display: flex; border-bottom: 1px solid #ccc; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 5px;}
+.tab-link { 
+    background-color: #f4f6f6; border: 1px solid #e5e8e8; border-radius: 4px; cursor: pointer; 
+    padding: 10px 15px; font-size: 0.9rem; font-weight: 600; color: #7f8c8d; 
+}
+.tab-link.active { color: #ffffff; background-color: #2980b9; border-color: #2980b9;}
+.tab-content { display: none; animation: fadeEffect 0.5s; }
+@keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
+
+/* Por defecto en móvil es 1 sola columna */
+.grid-layout, .grid-layout-full { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 1.5rem; 
+}
+
+.panel-texto { 
+    background-color: #f8f9f9; padding: 1.5rem; border-left: 4px solid #3498db; 
+    border-radius: 4px; display: flex; flex-direction: column; justify-content: center;
+}
+.panel-texto.full-width { border-left: 4px solid #27ae60; }
+.panel-texto ul { list-style-type: none; }
+.panel-texto li { 
+    margin-bottom: 0.8rem; text-align: justify; position: relative; 
+    padding-left: 1.2rem; font-size: 0.9rem;
+}
+.panel-texto li::before { content: "•"; color: #3498db; font-weight: bold; font-size: 1.5rem; position: absolute; left: 0; top: -5px; }
+.panel-texto.full-width li::before { color: #27ae60; }
+
+.panel-grafico { 
+    background-color: #ffffff; border: 1px solid #d5dbdb; border-radius: 8px; 
+    padding: 1rem; height: 50vh; min-height: 400px; display: flex; flex-direction: column; 
+}
+/* Específico para la pestaña de dependencia en móvil (necesita más alto para no aplastarse) */
+#bono .panel-grafico { height: auto; min-height: 800px; }
+
+.filtros-container { display: flex; gap: 0.5rem; margin-bottom: 1rem; width: 100%; flex-wrap: wrap;}
+.selector-botones { display: flex; gap: 5px; background: #f4f6f6; padding: 4px; border-radius: 4px; border: 1px solid #e5e8e8; }
+.btn-grafico { padding: 6px 10px; border: none; background: transparent; border-radius: 3px; cursor: pointer; font-weight: 600; font-size: 0.8rem; color: #5d6d7e;}
+.btn-grafico.active { background: #3498db; color: white; }
+
+.canvas-container { width: 100%; position: relative; flex-grow: 1;}
+
+/* En móvil, los dos gráficos se apilan uno abajo del otro */
+.double-canvas-container { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 1.5rem;}
+.half-canvas { width: 100%; height: 350px; position: relative; }
+canvas { width: 100% !important; height: 100% !important; }
+.fuente-texto { font-size: 0.8rem; color: #7f8c8d; margin-top: 10px; width: 100%; font-style: italic; }
+
+/* -------------------------------------------
+   ESCALADO A ESCRITORIO (MIN-WIDTH: 1024px) 
+   ------------------------------------------- */
+@media (min-width: 1024px) {
+    .dashboard-container { padding: 2rem; max-width: 1400px; }
+    h1 { font-size: 2rem; margin-bottom: 2rem;}
+    h2 { font-size: 1.4rem; }
+    
+    .tabs { margin-bottom: 2rem; gap: 0; border-bottom: 1px solid #ccc;}
+    .tab-link { 
+        background-color: inherit; border: none; padding: 14px 24px; font-size: 1rem; 
+        color: #7f8c8d; border-bottom: 3px solid transparent; border-radius: 0;
+    }
+    .tab-link.active { color: #2980b9; background-color: transparent; border-color: #2980b9; }
+    
+    /* El Grid pasa a ser doble columna */
+    .grid-layout { grid-template-columns: 1fr 1.8fr; align-items: stretch; }
+    .panel-texto { padding: 1.8rem; }
+    .panel-texto li { font-size: 0.95rem; margin-bottom: 1rem; }
+    
+    .panel-grafico { height: 65vh; min-height: 450px; padding: 1.5rem; }
+    #bono .panel-grafico { height: 65vh; min-height: 450px; }
+    
+    /* En PC, los dos gráficos de dependencia se ponen lado a lado */
+    .double-canvas-container { flex-direction: row; }
+    .half-canvas { width: 50%; height: 100%; }
+}
